@@ -13,12 +13,6 @@ return {
 					key = "r",
 				},
 				{
-					action = "Telescope projects",
-					desc = " Projects",
-					icon = " ",
-					key = "p",
-				},
-				{
 					action = "qa",
 					desc = " Quit",
 					icon = " ",
