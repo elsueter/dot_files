@@ -1,5 +1,9 @@
 return {
-	{ "ellisonleao/gruvbox.nvim" },
+	{ "ellisonleao/gruvbox.nvim", opts = {
+		terminal_colors = true,
+		inverse = true,
+		contrast = "hard",
+	} },
 	{
 		"LazyVim/LazyVim",
 		opts = {
