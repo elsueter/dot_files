@@ -7,7 +7,7 @@ return {
 			},
 		},
 	},
-	{ "rcarriga/nvim-notify", enable = false },
+	{ "rcarriga/nvim-notify", enabled = false },
 	{ "ellisonleao/gruvbox.nvim", opts = {
 		terminal_colors = true,
 		inverse = true,
