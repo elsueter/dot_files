@@ -1,4 +1,5 @@
 return {
+	{ "rcarriga/nvim-notify", enable = false },
 	{ "ellisonleao/gruvbox.nvim", opts = {
 		terminal_colors = true,
 		inverse = true,
