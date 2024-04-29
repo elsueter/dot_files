@@ -1,12 +1,5 @@
 return {
-	{
-		"folke/noice.nvim",
-		opts = {
-			notify = {
-				enabled = false,
-			},
-		},
-	},
+	{ "folke/noice.nvim", enabled = false },
 	{ "rcarriga/nvim-notify", enabled = false },
 	{ "ellisonleao/gruvbox.nvim", opts = {
 		terminal_colors = true,
