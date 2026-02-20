@@ -1,5 +1,5 @@
 WD=$(pwd)
-USR="joest"
+USR=$(whoami)
 
 new:
 	systemctl stop factorio
