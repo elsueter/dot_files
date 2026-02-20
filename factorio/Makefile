@@ -1,5 +1,5 @@
-WD=$(pwd)
-USR=$(whoami)
+WD:=$(shell pwd)
+USR:=$(shell whoami)
 
 new:
 	systemctl stop factorio
@@ -22,4 +22,4 @@ startup:
 	./bin/x64/factorio --start-server ../current_world.zip --server-settings ../server-settings.json
 
 deploy:
-	echo "[Unit]\nDescription=Factorio Server\nStartLimitIntervalSec=0\n\n[Service]\nType=simple\nUser=${USR}\nWordingDirectory=${WD}\nExecStart=make startup" >> /etc/systemd/system/factorio.service
+	echo "[Unit]\nDescription=Factorio Server\nStartLimitIntervalSec=0\n\n[Service]\nType=simple\nUser=$(USR)\nWordingDirectory=$(WD)\nExecStart=make startup" >> /etc/systemd/system/factorio.service
