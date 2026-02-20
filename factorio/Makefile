@@ -5,7 +5,7 @@ update:
 	sh update_server.sh
 
 startup:
-	sh startup_server.sh
+	systemctl start factorio
 
 deploy:
 	sh deploy_server.sh
