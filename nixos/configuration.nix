@@ -63,9 +63,16 @@ in
   # You can disable this if you're only using the Wayland session.
   services.xserver.enable = true;
 
-  # Enable the KDE Plasma Desktop Environment.
+  programs.hyprland.enable = true;
+
   services.displayManager.sddm.enable = true;
   services.desktopManager.plasma6.enable = true;
+
+  xdg.portal = {
+    enable = true;
+    extraPortals = [ pkgs.xdg-desktop-portal-gtk pkgs.xdg-desktop-portal-hyprland ];
+  };
+
 
   # Configure keymap in X11
   services.xserver.xkb = {
@@ -115,13 +122,40 @@ in
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
-  programs.steam = {
-    enable = true;
-  };
-
-  hardware.graphics.enable32Bit = true;
-  hardware.graphics.enable = true;
+  #hardware.graphics.enable32Bit = true;
+  #hardware.graphics.enable = true;
   services.pulseaudio.support32Bit = true;
+
+  hardware = {
+    amdgpu = {
+      opencl.enable = true;
+      initrd.enable = true;
+      # amdvlk = {
+      #   enable = true;
+      #   support32Bit.enable = true;
+      # };
+    };
+    graphics = {
+      enable = true;
+      enable32Bit = true;
+      extraPackages = with pkgs; [
+        libva-vdpau-driver
+        libvdpau-va-gl
+        rocmPackages.clr.icd # AMD required pkg
+      ];
+      extraPackages32 = with pkgs.pkgsi686Linux; [
+        libva-vdpau-driver
+        libvdpau-va-gl
+        # rocmPackages.clr.icd # AMD required pkg
+      ];
+    };
+  };
+  boot.kernelModules = ["amdgpu"];
+  systemd.tmpfiles.rules = [
+    "L+    /opt/rocm   -    -    -     -    ${pkgs.rocmPackages.clr}"
+  ];
+  # nixpkgs.config.rocmSupport = true;
+  programs.gpu-screen-recorder.enable = true;
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
@@ -132,13 +166,28 @@ in
     sbctl
     git
     lon
+    gcc
+    zsh
 
     kdePackages.partitionmanager
 
+    kitty
     vulkan-tools
-    steam
     discord
+    bolt-launcher
   ];
+
+  programs.steam.enable = true;
+  nixpkgs.config.packageOverrides = pkgs: {
+    steam = pkgs.steam.override {
+      extraPkgs = pkgs: with pkgs; [
+        xorg.libXcursor xorg.libXi xorg.libXinerama xorg.libXScrnSaver
+        libpng libpulseaudio libvorbis stdenv.cc.cc.lib
+        libkrb5 keyutils
+	gamemode
+      ];
+    };
+  };
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
